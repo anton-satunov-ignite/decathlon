@@ -1,0 +1,8 @@
+server:
+  servlet.context-path: /decathlon-calculator
+
+spring:
+  main:
+    banner_mode: "off"
+  application:
+    name: decathlon-calculator

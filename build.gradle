@@ -1,0 +1,97 @@
+plugins {
+    id 'org.springframework.boot' version '2.3.0.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
+    id 'idea'
+    id 'jacoco'
+    id 'checkstyle'
+}
+
+group = 'com.home'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation group: 'javax.validation', name: 'validation-api', version: '2.0.0.Final'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.2'
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.2'
+
+    //Swagger
+    implementation(group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2')
+    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.3.0'
+    testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.3.0'
+}
+
+bootRun {
+    systemProperty 'spring.profiles.active', 'local'
+}
+
+bootJar {
+    archiveFileName = 'decathlon-calculator.jar'
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.5"
+    reportsDir = file("$buildDir/reports/jacoco")
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+}
+
+check.dependsOn(
+        checkstyleMain,
+        checkstyleTest,
+        test,
+        jacocoTestReport,
+        jacocoTestCoverageVerification
+)
+
+
+checkstyle {
+    toolVersion = "8.23"
+    configFile = file("${rootProject.projectDir}/config/checkstyle/checkstyle.xml")
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            element = 'CLASS'
+            limit {
+                counter = 'LINE'
+                minimum = 0.90
+            }
+            limit {
+                counter = 'BRANCH'
+                minimum = 0.90
+            }
+            excludes = [
+                    'com.home.decathlon.DecathlonApplication'
+            ]
+        }
+    }
+}
+
+wrapper {
+    gradleVersion = '6.4.1'
+}
+
