@@ -13,7 +13,7 @@ public class ScoringService {
 
   private final List<Scorer> scorers;
 
-  public int calculateScoreFor(List<Result> results) {
+  public Integer calculateScoreFor(List<Result> results) {
     return results.stream()
         .map(result -> getScorerFor(result.getEvent()).calculateScore(result))
         .reduce(0, Integer::sum);

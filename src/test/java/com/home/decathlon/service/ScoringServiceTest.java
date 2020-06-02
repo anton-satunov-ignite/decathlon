@@ -9,7 +9,6 @@ import com.home.decathlon.base.BaseUnitTest;
 import com.home.decathlon.domain.Result;
 import com.home.decathlon.domain.Result.Event;
 import com.home.decathlon.service.scorers.Scorer;
-import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -39,8 +38,8 @@ class ScoringServiceTest extends BaseUnitTest {
     @Test
     @DisplayName("should call scorers and return right result")
     void shouldCallScorersAndReturnRightResult() {
-      final Result result1 = new Result(Event.LONG_JUMP, new BigDecimal("22"));
-      final Result result2 = new Result(Event.HUNDRED_METERS, new BigDecimal("223"));
+      final Result result1 = new Result(Event.LONG_JUMP, 22.21);
+      final Result result2 = new Result(Event.HUNDRED_METERS, 223.3);
       prepareMocks(scorer1, result1, false, 33);
       prepareMocks(scorer2, result1, true, 10);
       prepareMocks(scorer1, result2, true, 21);
@@ -52,7 +51,7 @@ class ScoringServiceTest extends BaseUnitTest {
     @Test
     @DisplayName("should throw exception on no scorer found")
     void shouldThrowExceptionOnNoScorerFound() {
-      final Result result1 = new Result(Event.LONG_JUMP, new BigDecimal("22"));
+      final Result result1 = new Result(Event.LONG_JUMP, 22.0);
 
       final IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
           () -> service.calculateScoreFor(List.of(result1)));

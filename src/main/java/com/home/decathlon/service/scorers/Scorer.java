@@ -7,6 +7,6 @@ public interface Scorer {
 
   boolean shouldCalculate(Event event);
 
-  Integer calculateScore(Result result);
+  int calculateScore(Result result);
 
 }

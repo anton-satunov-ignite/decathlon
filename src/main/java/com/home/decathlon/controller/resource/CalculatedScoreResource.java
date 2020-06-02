@@ -1,12 +1,10 @@
 package com.home.decathlon.controller.resource;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Value;
 
-@Data
-@AllArgsConstructor
+@Value
 public class CalculatedScoreResource {
 
-  private Integer score;
+  Integer score;
 
 }
